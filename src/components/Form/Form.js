@@ -5,10 +5,10 @@ function Form(props) {
   return (
   <div>
     <span>Current price: {props.price}</span>
-    <Row name="salad" clickLess = {props.remove} clickMore = {props.add('salad')}/>
-    <Row name="cheese"/>
-    <Row name="meat"/>
-    <Row name="bacon"/>
+    <Row name="salad" clickLess = {()=>{props.remove('salad')}} clickMore = {() => {props.add('salad')}}/>
+    <Row name="cheese" clickLess = {()=>{props.remove('cheese')}} clickMore = {() => {props.add('cheese')}}/>
+    <Row name="meat" clickLess = {()=>{props.remove('meat')}} clickMore = {() => {props.add('meat')}}/>
+    <Row name="bacon" clickLess = {()=>{props.remove('bacon')}} clickMore = {() => {props.add('bacon')}}/>
     <button type="button" className="btn btn-success" onClick={props.order}>Order</button>
   </div>);
 }

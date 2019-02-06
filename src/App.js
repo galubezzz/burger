@@ -23,9 +23,8 @@ class App extends Component {
         }
     };
 
-    addIngredient = (event) => {
+    addIngredient = (name) => {
         // скопировать ингредиент
-        let name = event.target.value.name;
         let ingredient = {...this.state.ingredients[name]};
 
         // поменять свойства в копии ингредиента
@@ -81,7 +80,7 @@ class App extends Component {
         }
       console.log('price:', price);
       return price;
-    }
+    };
 
     render() {
         return (
@@ -93,7 +92,7 @@ class App extends Component {
                 {/* чтобы получить и вывести результат. */}
                 {/* под ценой вывести форму BurgerForm */}
                 {/* в форме вывести IngredientControl для каждого ингредиента */}
-                <Form price={this.calculatePrice()} add={this.addIngredient} remove={() => this.removeIngredient('salad')}/>
+                <Form price={this.calculatePrice()} add={this.addIngredient} remove={this.removeIngredient}/>
             </div>
         );
     }
