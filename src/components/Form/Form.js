@@ -10,10 +10,11 @@ function Form(props) {
       <div className='form'>
           {
               props.ingredients.map(
-                  ingredient => <Row key={ingredient.name}
-                                     name={ingredient.name}
-                                     clickLess = {()=>{props.remove(ingredient.name)}}
-                                     clickMore = {() => {props.add(ingredient.name)}}/>
+                  ingredient => <Row key = {ingredient.name}
+                                     label = {() => props.label(ingredient.name)}
+                                     clickLess = {() => {props.remove(ingredient.name)}}
+                                     clickMore = {() => {props.add(ingredient.name)}}
+                                     disabled={ingredient.disabled} />
           )
           }
       </div>

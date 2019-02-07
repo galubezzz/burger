@@ -20,6 +20,8 @@ const changeIng = (ingredients, name, factor) => ingredients.map((theIngredient)
         if (factor > 0 || theIngredient.count !== 0) {
             theIngredient.count += factor;
         }
+            theIngredient.disabled = theIngredient.count < 1;
+
     }
     theIngredient.total = theIngredient.count * availableIngredients.find(item => item.name === theIngredient.name).price;
     return theIngredient;
@@ -27,12 +29,13 @@ const changeIng = (ingredients, name, factor) => ingredients.map((theIngredient)
 
 class App extends Component {
 
+
     state = {
         ingredients: [
-            {name: 'salad', count: 0, total: 0, disable: true},
-            {name: 'cheese', count: 0, total: 0, disable: true},
-            {name: 'meat', count: 0, total: 0, disable: true},
-            {name: 'bacon', count: 0, total: 0, disable: true}
+            {name: 'salad', count: 0, total: 0, disabled: true},
+            {name: 'cheese', count: 0, total: 0, disabled: true},
+            {name: 'meat', count: 0, total: 0, disabled: true},
+            {name: 'bacon', count: 0, total: 0, disabled: true}
         ],
         totalPrice: basePrice
 
@@ -53,6 +56,12 @@ class App extends Component {
       this.setState({ ingredients: newIngredients, totalPrice: price });
     };
 
+    getLabel = (name) => {
+        let label = availableIngredients.find(item => item.name === name).label;
+        return label;
+    };
+
+
     render() {
         return (
             <div className="App">
@@ -65,6 +74,7 @@ class App extends Component {
                 {/* в форме вывести IngredientControl для каждого ингредиента */}
                 <Form price={this.state.totalPrice}
                       add={this.addIngredient}
+                      label={this.getLabel}
                       remove={this.removeIngredient}
                       ingredients={this.state.ingredients}/>
             </div>
