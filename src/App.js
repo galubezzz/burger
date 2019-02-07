@@ -15,12 +15,12 @@ const availableIngredients = [
 
 class App extends Component {
     state = {
-        ingredients: {
-            salad: {count: 1, total: 0},
-            cheese: {count: 2, total: 0},
-            meat: {count: 2, total: 0},
-            bacon: {count: 1, total: 0}
-        }
+        ingredients: [
+            {name: 'salad', count: 1, total: 0},
+            {name: 'cheese', count: 2, total: 0},
+            {name: 'meat', count: 2, total: 0},
+            {name: 'bacon', count: 1, total: 0}
+        ]
     };
 
     addIngredient = (name) => {
@@ -32,43 +32,30 @@ class App extends Component {
     };
 
     changeIngredient = (name, factor) => {
-        // скопировать ингредиент
-        let ingredient = {...this.state.ingredients[name]};
 
+      const newIngredients = this.state.ingredients.map((theIngredient, index) => {
+          console.log('the ingredient #', index, theIngredient);
 
-        let price = availableIngredients.find(item => item.name === name).price;
-        if (factor<0 && ingredient.count==0){
-          return;
-        }
-        else {
-          ingredient.count += factor;
-        }
-        ingredient.total = ingredient.count * price;
+          if (theIngredient.name === name) {
+              if (factor > 0 || theIngredient.count !== 0) {
+                  theIngredient.count += factor;
+              }
+          }
 
-        // скопипровать объект "ингредиенты"
-        let ingredients = {...this.state.ingredients};
+          return theIngredient;
+      });
 
-        // поменять ингредиент в копии объекта "ингредиенты"
-        ingredients[name] = ingredient;
-
-        // скопировать состояние (state) компонента App.js
-        let state = {...this.state};
-
-        // поменять объект "игредиенты" в копии состояния (state)
-        state.ingredients = ingredients;
-
-        // задать новый state с перерисовкой компонентов на странице
-        this.setState(state);
+      this.setState({ ingredients: newIngredients });
     };
 
     calculatePrice = () => {
-      let price = 0
-      for (let i in this.state.ingredients){
-        this.state.ingredients[i].total = this.state.ingredients[i].count * availableIngredients.find(item => item.name === i).price;
-        price += this.state.ingredients[i].total;
-        }
-      console.log('price:', price);
-      return price;
+      //let price = 0
+      //for (let i in this.state.ingredients){
+        //this.state.ingredients[i].total = this.state.ingredients[i].count * availableIngredients.find(item => item.name === i).price;
+        //price += this.state.ingredients[i].total;
+       // }
+      //console.log('price:', price);
+      return 0;
     };
 
     render() {
@@ -81,7 +68,10 @@ class App extends Component {
                 {/* чтобы получить и вывести результат. */}
                 {/* под ценой вывести форму BurgerForm */}
                 {/* в форме вывести IngredientControl для каждого ингредиента */}
-                <Form price={this.calculatePrice()} add={this.addIngredient} remove={this.removeIngredient}/>
+                <Form price={this.calculatePrice()}
+                      add={this.addIngredient}
+                      remove={this.removeIngredient}
+                      ingredients={this.state.ingredients}/>
             </div>
         );
     }
