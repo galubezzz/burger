@@ -27,13 +27,12 @@ const changeIng = (ingredients, name, factor) => ingredients.map((theIngredient)
 
 class App extends Component {
 
-  
     state = {
         ingredients: [
-            {name: 'salad', count: 0, total: 0},
-            {name: 'cheese', count: 0, total: 0},
-            {name: 'meat', count: 0, total: 0},
-            {name: 'bacon', count: 0, total: 0}
+            {name: 'salad', count: 0, total: 0, disable: true},
+            {name: 'cheese', count: 0, total: 0, disable: true},
+            {name: 'meat', count: 0, total: 0, disable: true},
+            {name: 'bacon', count: 0, total: 0, disable: true}
         ],
         totalPrice: basePrice
 

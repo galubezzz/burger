@@ -1,12 +1,13 @@
 import React from 'react';
-import Row from "./Row/Row"
+import Row from "./Row/Row";
+import './Form.css';
 
 function Form(props) {
   return (
   <div>
     <span>Current price: {props.price}</span>
 
-      <div>
+      <div className='form'>
           {
               props.ingredients.map(
                   ingredient => <Row key={ingredient.name}
