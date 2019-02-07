@@ -34,14 +34,13 @@ class App extends Component {
     changeIngredient = (name, factor) => {
 
       const newIngredients = this.state.ingredients.map((theIngredient, index) => {
-          console.log('the ingredient #', index, theIngredient);
 
           if (theIngredient.name === name) {
               if (factor > 0 || theIngredient.count !== 0) {
                   theIngredient.count += factor;
               }
           }
-
+          theIngredient.total = theIngredient.count * availableIngredients.find(item => item.name === theIngredient.name).price;
           return theIngredient;
       });
 
@@ -49,13 +48,11 @@ class App extends Component {
     };
 
     calculatePrice = () => {
-      //let price = 0
-      //for (let i in this.state.ingredients){
-        //this.state.ingredients[i].total = this.state.ingredients[i].count * availableIngredients.find(item => item.name === i).price;
-        //price += this.state.ingredients[i].total;
-       // }
-      //console.log('price:', price);
-      return 0;
+      let price = 0;
+      this.state.ingredients.forEach((theIngredient) => {
+          price +=  theIngredient.total;
+      });
+      return price;
     };
 
     render() {
