@@ -12,15 +12,31 @@ const availableIngredients = [
     {name: 'bacon', price: 20, label: 'Бекон'}
 ];
 
+const basePrice = 20;
+
+const calc = ingredients => ingredients.reduce((sum, ing) => sum + ing.total, basePrice);
+const changeIng = (ingredients, name, factor) => ingredients.map((theIngredient) => {
+    if (theIngredient.name === name) {
+        if (factor > 0 || theIngredient.count !== 0) {
+            theIngredient.count += factor;
+        }
+    }
+    theIngredient.total = theIngredient.count * availableIngredients.find(item => item.name === theIngredient.name).price;
+    return theIngredient;
+});
 
 class App extends Component {
+
+  
     state = {
         ingredients: [
-            {name: 'salad', count: 1, total: 0},
-            {name: 'cheese', count: 2, total: 0},
-            {name: 'meat', count: 2, total: 0},
-            {name: 'bacon', count: 1, total: 0}
-        ]
+            {name: 'salad', count: 0, total: 0},
+            {name: 'cheese', count: 0, total: 0},
+            {name: 'meat', count: 0, total: 0},
+            {name: 'bacon', count: 0, total: 0}
+        ],
+        totalPrice: basePrice
+
     };
 
     addIngredient = (name) => {
@@ -32,27 +48,10 @@ class App extends Component {
     };
 
     changeIngredient = (name, factor) => {
+      const newIngredients = changeIng(this.state.ingredients, name, factor);
+      const price = calc(newIngredients);
 
-      const newIngredients = this.state.ingredients.map((theIngredient, index) => {
-
-          if (theIngredient.name === name) {
-              if (factor > 0 || theIngredient.count !== 0) {
-                  theIngredient.count += factor;
-              }
-          }
-          theIngredient.total = theIngredient.count * availableIngredients.find(item => item.name === theIngredient.name).price;
-          return theIngredient;
-      });
-
-      this.setState({ ingredients: newIngredients });
-    };
-
-    calculatePrice = () => {
-      let price = 0;
-      this.state.ingredients.forEach((theIngredient) => {
-          price +=  theIngredient.total;
-      });
-      return price;
+      this.setState({ ingredients: newIngredients, totalPrice: price });
     };
 
     render() {
@@ -65,7 +64,7 @@ class App extends Component {
                 {/* чтобы получить и вывести результат. */}
                 {/* под ценой вывести форму BurgerForm */}
                 {/* в форме вывести IngredientControl для каждого ингредиента */}
-                <Form price={this.calculatePrice()}
+                <Form price={this.state.totalPrice}
                       add={this.addIngredient}
                       remove={this.removeIngredient}
                       ingredients={this.state.ingredients}/>
